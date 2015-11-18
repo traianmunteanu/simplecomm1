@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include partials/page/head.ejs %>
+
+	</head>
+
+	<body onLoad="load_em()">
+
+	<!--Navbar-->
+
+		<% include partials/page/navbar.ejs %>
+
+
+
+	<!-- Header -->
+
+		<div class="container">
+			<section>
+				<ul class="breadcrumb">
+
+					<li><a href="/">Home</a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>"><%= currentCat %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>"><%= currentSubC %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>?from=0&to=10"><%= currentSubSubC %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>/<%= currentProduct %>/<%= currentIdProduct %>"><%= currentProduct %></a><span class="divider">/</span></li>
+					<li class="active"><a href="">Product Details</a></li>
+
+
+				</ul>
+
+			</section>
+
+
+	<!--Page content-->
+
+		<!-- display info for each product -->
+
+		<% _.each(items, function(topP){ %>
+			<div class="row">
+
+		<!-- Carousel -->
+				<div class="span6">
+
+					<div class="carousel slide" id="my-carousel">
+						<ol class="carousel-indicators">
+
+							<!-- for each image group with view-type=large and variation-value attribute!=0, create a carousel indicator -->
+
+							<% _.each(topP.image_groups, function(imgG){ %>
+								<% if(imgG.view_type =='large' && imgG.variation_value) { %>
+									<% var k=0; %>
+									<% _.each(imgG.images, function(img){ %>
+
+										<li data-target="#my-carousel" data-slide-to="<%= k %>"
+											<% if( k==0 ) { %>
+											class="active"
+											<% } else { %>
+											class=""
+											<% } %> >
+										</li>
+									<% k++; %>
+									<% }); %>
+								<% } %>
+							<% }); %>
+
+						</ol> <!-- end of carousel indicators -->
+
+						<div class="carousel-inner">
+
+						 	<!-- for each image group with view-type=large and variation-value attribute!=0, put the image in the carousel  -->
+
+							<% var l=0; %>
+							<% _.each(topP.image_groups, function(imgG){ %>
+								<% if(imgG.view_type =='large' && imgG.variation_value) { %>
+									<% _.each(imgG.images, function(img){ %>
+										<div <% if( l==0 ) { %>
+											class="item active"
+											<% } else { %>
+											class="item"
+											<% } %> >
+											<img class="thumbnail" src="/images/<%= img.link %>" alt="Demo">
+										</div>
+									<% l++; %>
+									<% }); %>
+								<% } %>
+							<% }); %>
+
+
+						</div> <!-- end of carousel inner -->
+
+						<a href="#my-carousel" class="carousel-control left" data-slide="prev">&lsaquo;</a><!-- button for prev image -->
+						<a href="#my-carousel" class="carousel-control right" data-slide="next">&rsaquo;</a><!-- button for next image -->
+
+					</div>
+
+				</div><!-- end of carousel -->
+
+				<div class="span6">
+					<h4><%= topP.name %></h4> <!-- name -->
+					<h4><b>Price: $ <%= topP.price %></b></h4> <!-- price -->
+					<hr>
+
+					<!-- for each product, show the available colors (images with the view-type=swatch) -->
+
+					<ul class="thumbnails">
+						<% _.each(topP.image_groups, function(imgG){ %>
+							<% if(imgG.view_type =='swatch' && imgG.variation_value) { %>
+								<% _.each(imgG.images, function(img){ %>
+									<li><a href="" class="thumbnail"><img src="/images/<%= img.link %>" style="float:left, margin-left:5px" alt=""></a></li>
+								<% }); %>
+							<% } %>
+						<% }); %>
+					</ul>
+
+
+
+					<!-- for each product, enumerate the colors, if they exist, or else write "One color only" -->
+
+					<p>Colors:
+						<ul>
+						  	<% var ok=0; %>
+						  	<% _.each(topP.variation_attributes, function(variation){ %>
+
+						  		<% if( variation.id=='color' ){ %>
+									<% ok=1; %>
+								<% } %>
+							<%	}); %>
+
+							<% if(ok==0) { %>
+									<li>One color only.</li>
+							<% } %>
+
+							<% _.each(topP.variation_attributes, function(variation){ %>
+
+								<% if( variation.id == 'color') { %>
+									<% _.each (variation.values, function(values){ %>
+										<li><%= values.name %></li>
+									<% }); %>
+								<% } %>
+
+							<%	}); %>
+						</ul>
+					</p>
+					<hr>
+
+
+		<!-- Dropdown size -->
+
+					<div class="row">
+						<div class="span2">
+							<div class="dropdown">
+
+							<!-- for each product, enumerate the sizes that exist, or else write "One size only" -->
+
+							  <button class="btn btn-default dropdown-toggle btn-block" type="button" id="2" data-toggle="dropdown">
+							    Size
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" role="menu" aria-labelledby="2">
+
+							  	<% var ok=0; %>
+							  	<% _.each(topP.variation_attributes, function(variation){ %>
+
+							  		<% if( variation.id=='size' ){ %>
+										<% ok=1; %>
+									<% } %>
+
+								<%	}); %>
+
+								<% if(ok==0) { %>
+									<li><a role="menuitem" tabindex="-1" href="#">One size only</a></li>
+								<% } %>
+
+								<% _.each(topP.variation_attributes, function(variation){ %>
+
+							  		<% if( variation.id == 'size') { %>
+							  			<% _.each (variation.values, function(values){ %>
+							  				<% if(values.value){ %>
+							    				<li><a role="menuitem" tabindex="-1" href="#"><%= values.value %></a></li>
+							    			<% }  %>
+										<% }); %>
+									<% } %>
+
+								<% }); %>
+
+
+							  </ul>
+							</div><!--end of dropdown size -->
+						</div>
+					</div>
+					<br>
+
+
+					<form class="form-horizontal">
+						<div class="row">
+							<div class="span1">
+								<label>Quantity: </label> <!-- quantity -->
+							</div>
+							<div class="span1">
+								<div class="dropdown">
+								  <button class="btn btn-default dropdown-toggle btn-block" type="button" id="1" data-toggle="dropdown">1<span class="caret"></span></button>
+
+								  <ul class="dropdown-menu" role="menu" aria-labelledby="1">
+								   <% for(var i=1;i<=10;i++) { %>
+										<li><a role="menuitem" tabindex="-1" href="#"><%= i %></a></li>
+								   <% } %>
+								  </ul>
+								</div>
+							</div>
+						</div>
+					</form>
+
+
+					<button type="button" class="btn btn-danger btn-lg btn-block" style="float:right, margin-top:15px"><b>Add to cart</b></button> <!-- button for add to cart -->
+					<hr>
+
+		<!-- Accordion description -->
+					<div class="accordion" id="1">
+
+						<div class="accordion-group">
+							<div class="accordion-heading">
+								<a href="#collapse-1" data-parent="#1" data-toggle="collapse" class="accordion-toggle">Description</a>
+							</div>
+
+							<div class="accordion-body in collapse" id="collapse-1" style="height: auto;">
+								<div class="accordion-inner"><%- topP.short_description %></div> <!-- description -->
+							</div>
+						</div>
+
+
+						<% if(topP.short_description!=topP.long_description) { %>
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a href="#collapse-2" data-parent="#1" data-toggle="collapse" class="accordion-toggle">Material and washing instructions</a>
+								</div>
+
+								<div class="accordion-body collapse" id="collapse-2">
+									<div class="accordion-inner"><%- topP.long_description %></div> <!-- material and washing insctructions -->
+								</div>
+							</div>
+						<% } %>
+
+					</div><!-- end of accordion description -->
+					<% }); %>
+				</div><!-- end of span6 class -->
+			</div><!-- end of row class -->
+
+
+	<!--Footer-->
+			<% include partials/page/footer.ejs %>
+		</div>
+
+
+		<% include partials/page/jsdefaults.ejs %>
+
+
+		<script> /*carousel functionality*/
+		$(document).ready(function(){
+			$(".carousel").carousel({
+				interval: 2000
+			});
+		});
+		</script>
+	</body>
+</html>

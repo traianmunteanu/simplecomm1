@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include partials/page/head.ejs %>
+	</head>
+	<body onLoad="load_em()">
+
+	<!--Navbar-->
+
+		<% include partials/page/navbar.ejs %>
+
+	<!--Header-->
+
+		<div class="container">
+			<section>
+
+				<ul class="breadcrumb">
+
+					<li><a href="/">Home</a><span class="divider">/</span></li>
+					<li><a href="/site/shop/<%= currentCat %>"><%= currentCat %></a><span class="divider">/</span></li>
+					<li class="active"><a href=""><%= currentSubC %></a></li>
+
+				</ul>
+
+				<!-- display info for each  subcategory -->
+
+				<% _.each(items, function(topC){ %>
+					<% _.each(topC.categories, function(subC){ %>
+				<div class="page-header">
+					<a href=""><h2><%= subC.name %></h2></a> <!-- name -->
+					<p><%= subC.page_description %></p> <!-- description -->
+				</div>
+			</section>
+
+	<!--Page content-->
+
+			<!-- display info for each subsubcategory -->
+
+			<% _.each(subC.categories, function(subsubC){ %>
+			<section>
+
+				<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= subsubC.name %>/<%= subsubC.id %>?from=0&to=10"><h3><%= subsubC.name %></h3></a> <!-- name -->
+
+				<% if (subsubC.image) { %>
+		            <div>
+		                <a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= subsubC.name %>/<%= subsubC.id %>?from=0&to=10"><img class="thumbnail" src="/images/<%= subsubC.image %>"></a> <!-- image -->
+		            </div>
+                <% } %>
+
+				<br>
+				<p><%= subsubC.page_description %></p> <!-- description -->
+				<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= subsubC.name %>/<%= subsubC.id %>?from=0&to=10" class="btn btn-primary">View products</a> <!-- button to view products -->
+				<br>
+				<br>
+				<% }); %>
+			<% }); %>
+			<% }); %>
+			</section>
+
+
+	<!--Footer-->
+			<% include partials/page/footer.ejs %>
+		</div>
+
+		<% include partials/page/jsdefaults.ejs %>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#bg {
+  position:fixed; 
+  top:-50%; 
+  left:-50%; 
+  width:200%; 
+  height:200%;
+ }
+ #bg img {
+  position:absolute; 
+  top:15%; 
+  left:0; 
+  right:0; 
+  bottom:0; 
+  margin:auto; 
+ }
+ 
+ #page-wrap { position: absolute; z-index: 2; width: 400px; margin-left:160px; margin-top: 50px; padding: 20px;  }
+ .homepage { font: 15px/2 Georgia, Serif; margin: 0 0 20px 0; text-indent: 40px; }
+
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.carousel-indicators .active {
+  background-color: #444;
+}
+.form-horizontal{
+	margin:0 0 15 0;
+	padding: 0 0 15 0;
+}
+.control-label, .form-group {
+	margin:0 0 15 0;
+	padding: 0 0 15 0;
+}
+
+.row .span6 {
+	float:left;
+	display: inline;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include partials/page/head.ejs %>
+	</head>
+
+	<body onLoad="load_em()">
+
+	<!--Navbar-->
+
+		<% include partials/page/navbar.ejs %>
+
+	<!-- Header -->
+
+		<div class="container">
+			<section>
+				<ul class="breadcrumb">
+
+					<li><a href="/">Home</a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>"><%= currentCat %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>"><%= currentSubC %></a><span class="divider">/</span></li>
+
+					<li class="active"><a href=""><%= currentSubSubC %></a></li>
+
+				</ul>
+
+
+			</section>
+
+
+	<!-- Page content -->
+
+
+			<section>
+
+				<div class="row">
+					<div class="span6">
+
+						<!-- display info for each product -->
+
+						<% _.each(items, function(topP){ %>
+
+							<h4><%= topP.name %></h4> <!-- name -->
+
+								<div class="row">
+
+									<div class="span3">
+										<div class="form-group">
+											<div class="thumbnail" style="float:left">
+
+												<% _.each(topP.image_groups, function(imgG){ %>
+													<% if(imgG.view_type=='small'&& typeof imgG.variation_value == "undefined") { %>
+
+													<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>/<%= topP.page_title %>/<%= topP.id %>"><img src="/images/<%= imgG.images[0].link %>" alt="demo" style="float:left" ></a> <!-- small sized image -->
+													<% } %>
+												<% }); %>
+
+											</div>
+										</div>
+									</div>
+
+									<div class="span3">
+										<div class="form-group">
+											<p><%- topP.short_description %></p> <!-- description -->
+											<form class="form-inline" role="form">
+												<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>/<%= topP.page_title %>/<%= topP.id %>" type="button" class="btn btn-primary btn-lg" style="float:right">View more</a><!--  button to view product -->
+												<label>Price: $ <%= topP.price %></label> <!-- price -->
+
+											</form>
+										</div>
+									</div>
+								</div>
+
+
+						<% }); %>
+
+					</div>
+
+			</section>
+
+	<!-- Pagination -->
+
+	<ul class="pager">
+	  <li class="previous">
+	    <a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>?from=<%= fromP %>&to=<%= limitP %>">&larr; Previous</a>
+
+	  </li>
+	  <li class="next">
+	    <a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>?from=<%= fromN %>&to=<%= limitP %>">Next &rarr;</a>
+	  </li>
+	</ul>
+
+
+	<!--Footer-->
+			<% include partials/page/footer.ejs %>
+		</div>
+
+		<% include partials/page/jsdefaults.ejs %>
+	</body>
+</html>

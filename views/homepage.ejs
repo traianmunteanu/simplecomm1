@@ -1,0 +1,32 @@
+
+<html lang="en">
+  <head>
+   <% include partials/page/head.ejs %>
+  </head>
+
+  <body onLoad="load_em()">
+      <!--  Navbar -->
+
+      <% include partials/page/navbar.ejs %>
+
+      <div id="page-wrap">
+        <a href="/site/shop/Mens"><h4><i>Men</i></h4></a>
+        <p class="homepage"><i>Men's range. Hard-wearing boots, jackets and clothing for unbeatable comfort day in, day out. Practical, easy-to-wear styles wherever you're headed.</i></p>
+        <a href="/site/shop/Mens" type="button" class="btn btn-primary btn-lg" style="float:right; font: 15px/2 Georgia, Serif; ">Check it out!</a>
+        <br>
+        <a href="/site/shop/Womens"><h4><i>Women</i></h4></a>
+        <p class="homepage"><i>Women's range. Fashionable and stylish Shoes, jackets and all other clothing for unbeatable comfort day in, day out. Practical and fashionable styles wherever the occasion.</i></p>
+        <a href="/site/shop/Womens" type="button" class="btn btn-primary btn-lg" style="float:right; font: 15px/2 Georgia, Serif; ">Check it out!</a>
+      </div>
+
+
+      <div id="bg">
+        <img src="/images/homepage.jpg" alt="">
+      </div>
+
+
+      <% include partials/page/footer.ejs %>
+
+      <% include partials/page/jsdefaults.ejs %>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include partials/page/head.ejs %>
+	</head>
+	<body onLoad="load_em()">
+
+	<!--Navbar-->
+
+		<% include partials/page/navbar.ejs %>
+
+	<!--Header-->
+
+		<div class="container">
+			<section>
+				<ul class="breadcrumb">
+					<li><a href="/">Home</a><span class="divider">/</span></li>
+
+					<li class="active"><a href=""><%= currentCat %></a></li>
+				</ul>
+
+				<!-- display info for each main category -->
+
+				<% _.each(items, function(topC){ %>
+				<div class="page-header">
+					<a href=""><h2><%= topC.name %></h2></a> <!-- name -->
+					<p><%= topC.page_description %></p> <!-- description -->
+				</div>
+			</section>
+
+	<!--Page content-->
+
+			<!-- display info for each subcategory -->
+
+			<% _.each(topC.categories, function(subC){ %>
+			<section>
+
+				<a href="/site/shop/<%= topC.name %>/<%= subC.name %>"><h3><%= subC.name %></h3></a> <!-- name -->
+				<% if (subC.image) { %>
+		            <div>
+		                <a href="/site/shop/<%= topC.name %>/<%= subC.name %>"><img class="thumbnail" src="/images/<%= subC.image %>"></a> <!-- image -->
+		            </div>
+                <% } %>
+				<br>
+				<p><%= subC.page_description %></p> <!-- description -->
+				<a href="/site/shop/<%= topC.name %>/<%= subC.name %>" class="btn btn-primary">View products</a> <!-- button to view products -->
+				<br>
+				<br>
+				<% }); %>
+			<% }); %>
+			</section>
+
+
+	<!--Footer-->
+			<% include partials/page/footer.ejs %>
+		</div>
+
+		<% include partials/page/jsdefaults.ejs %>
+	</body>
+</html>

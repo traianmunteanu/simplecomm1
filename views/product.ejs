@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include partials/page/head.ejs %>
+
+	</head>
+
+	<body onLoad="load_em()">
+
+		<!-- script for facebook like button, share button and comments -->
+		<div id="fb-root"></div>
+		<script>
+			(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) return;
+			  js = d.createElement(s);
+			  js.id = id;
+			  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.0";
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+
+	<!--Navbar-->
+
+		<% include partials/page/navbar.ejs %>
+
+	<!-- Header -->
+
+		<div class="container">
+			<section>
+				<ul class="breadcrumb">
+
+					<li><a href="/">Home</a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>"><%= currentCat %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>"><%= currentSubC %></a><span class="divider">/</span></li>
+
+					<li><a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>?from=0&to=10"><%= currentSubSubC %></a><span class="divider">/</span></li>
+
+					<li class="active"><a href=""><%= currentProduct %></a></li>
+
+				</ul>
+
+			</section>
+
+
+	<!--Page content-->
+
+
+			<section>
+
+				<div class="row">
+
+						<div class="span12">
+
+							<!-- display info for each product -->
+
+							<% _.each(items, function(topP){ %>
+
+							<div style="float:left;">
+
+								<form class="form-horizontal">
+
+									<div class="row">
+
+										<div class="span6">
+											<div class="form-group">
+												<div>
+
+													<% _.each(topP.image_groups, function(imgG){ %>
+														<% if(imgG.view_type=='medium' && typeof imgG.variation_value == "undefined") { %>
+
+													<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>/<%= topP.page_title %>/<%= topP.id %>/Details"><img class="thumbnail" src="/images/<%= imgG.images[0].link %>" alt="demo" style="float:left" ></a> <!-- medium sized image -->
+
+														<% } %>
+													<% }); %>
+
+												</div>
+											</div>
+										</div>
+
+										<div class="span6">
+											<div class="form-group">
+												<h3><%= topP.name %></h3> <!-- name -->
+												<p><%- topP.short_description %></p> <!-- description -->
+												<form class="form-inline" role="form">
+
+													<a href="/site/shop/<%= currentCat %>/<%= currentSubC %>/<%= currentSubSubC %>/<%= currentid %>/<%= topP.page_title %>/<%= topP.id %>/Details" type="button" class="btn btn-primary btn-lg" style="float:left">View Details</a> <!-- button to view product details -->
+
+													<div>
+														<span style="margin-left:200px">Price:</span>
+														<span id="price"><%= topP.price %></span>
+														<span style="float:right">
+															<select style="width:70px;" id="currency" class="form-control">
+																<option value="USD">USD</option>
+																<option value="EUR">EUR</option>
+																<option value="RON">RON</option>
+															</select>
+														</span>
+													</div>
+												</form>
+											</div>
+											<hr>
+											<div class="fb-like" data-href="http://www.global.com/" data-layout="standard" data-action="like"  data-share="true"></div>
+											<div class="fb-comments" data-href="http://www.global.com/" data-numposts="5" data-colorscheme="light"></div>
+										</div>
+									</div>
+
+								</form>
+							</div>
+
+
+							<% }); %>
+						</div>
+				</div>
+			</section>
+
+
+	<!--Footer-->
+			<% include partials/page/footer.ejs %>
+		</div>
+
+		<% include partials/page/jsdefaults.ejs %>
+	</body>
+</html>
+
+

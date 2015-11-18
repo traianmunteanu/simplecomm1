@@ -1,0 +1,59 @@
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+<script type="text/JavaScript">
+
+	/*when we click on Log In form navbar, open Log In modal window*/
+	$("#login").click(function(){
+		$("#logInModal").modal('show');
+		/*when the modal window is closed, reload the current page*/
+		$('#logInModal').on('hidden', function () {
+		   window.location.reload(true);
+		});
+
+	});
+
+	/*when we click on Sign Up form navbar, open Sign Up modal window*/
+	$("#signup").click(function(){
+		$("#signUpModal").modal('show');
+	});
+	
+	/*when we click on Log out form navbar, open Log out modal window*/
+	$('#logout').on('click',function(){
+		$.post("/logout",function(){
+				$("#logOutModal").modal('show');
+				/*after 2 seconds, hide modal window*/
+				setTimeout(function(){
+				  $('#logOutModal').modal('hide')
+				}, 2000);
+				/*when modal window is closed, reload current page*/
+				$('#logOutModal').on('hidden', function () {
+				   window.location.reload(true);
+				});
+
+		}); 
+	});
+</script>
+<script src="http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script> /*script for remember me checkbox*/
+	function remember_me(){
+	   var c = $("#checkbox"); 
+
+	   
+	   if(c.is(":checked")){
+	     var u = $("#userLogin").val(); 
+	     var p = $("#passwordLogin").val(); 
+	     $.cookie("userLogin", u, { expires: 365 }); 
+	     $.cookie("passwordLogin", p, { expires: 365 }); 
+	   }
+	}
+	/*on the next page load the username and password will be inserted in their inputs*/
+	function load_em(){
+	   var u = $.cookie("userLogin"); 
+	   var p = $.cookie("passwordLogin"); 
+
+	   $("#userLogin").val(u); 
+	   $("#passwordLogin").val(p); 
+	}
+</script>
